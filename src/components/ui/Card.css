@@ -1,0 +1,37 @@
+/* Card Base Styles */
+.card {
+    border-radius: var(--radius-lg);
+    padding: var(--space-6);
+    transition: all var(--transition-base);
+}
+
+/* Card Variants */
+.card-default {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-subtle);
+}
+
+.card-glass {
+    background: rgba(18, 18, 26, 0.6);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--border-subtle);
+}
+
+.card-elevated {
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border-medium);
+    box-shadow: var(--shadow-lg);
+}
+
+/* Hover Effect */
+.card-hover:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-xl);
+    border-color: var(--border-medium);
+}
+
+.card-glass.card-hover:hover {
+    background: rgba(26, 26, 37, 0.7);
+    box-shadow: var(--shadow-glow);
+}
