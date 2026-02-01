@@ -1,0 +1,109 @@
+/* Browse Page Styles */
+
+.browse-page {
+    min-height: 100vh;
+    padding: var(--space-8) 0;
+    background: var(--bg-primary);
+}
+
+.browse-header {
+    margin-bottom: var(--space-8);
+}
+
+.browse-title-section {
+    margin-bottom: var(--space-6);
+}
+
+.browse-title-section h1 {
+    font-size: clamp(2rem, 4vw, 2.5rem);
+    margin-bottom: var(--space-2);
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.browse-subtitle {
+    font-size: 1.125rem;
+    color: var(--text-secondary);
+    margin: 0;
+}
+
+.browse-filters {
+    display: flex;
+    gap: var(--space-4);
+    flex-wrap: wrap;
+}
+
+/* Results Info */
+.browse-results-info {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: var(--space-6);
+    padding-bottom: var(--space-4);
+    border-bottom: 1px solid var(--border-subtle);
+}
+
+.results-count {
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-2);
+    font-size: 0.9375rem;
+}
+
+.count-number {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--accent-primary);
+}
+
+.count-text {
+    color: var(--text-secondary);
+}
+
+.count-divider {
+    color: var(--text-muted);
+}
+
+.count-category {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-1);
+    padding: var(--space-1) var(--space-3);
+    background: rgba(99, 102, 241, 0.1);
+    border-radius: var(--radius-full);
+    font-weight: 600;
+    color: var(--accent-primary);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .browse-page {
+        padding: var(--space-6) 0;
+    }
+
+    .browse-header {
+        margin-bottom: var(--space-6);
+    }
+
+    .browse-title-section h1 {
+        font-size: 1.75rem;
+    }
+
+    .browse-subtitle {
+        font-size: 1rem;
+    }
+
+    .browse-filters {
+        flex-direction: column;
+    }
+
+    .results-count {
+        flex-wrap: wrap;
+    }
+
+    .count-number {
+        font-size: 1.25rem;
+    }
+}
