@@ -35,7 +35,7 @@ export const Features: React.FC = () => {
             <div className="container">
                 <div className="features-header">
                     <h2 className="features-title">
-                        {t('title', { brand: <span className="gradient-text">PicUp</span> })}
+                        {t('title')} <span className="gradient-text">PicUp</span>?
                     </h2>
                     <p className="features-description">
                         {t('subtitle')}
