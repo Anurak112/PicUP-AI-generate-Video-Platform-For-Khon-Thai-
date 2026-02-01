@@ -476,3 +476,27 @@ a:focus-visible {
   outline: 2px solid var(--accent-primary);
   outline-offset: 2px;
 }
+
+/* Skeleton Loading */
+.skeleton-shimmer {
+  background: linear-gradient(
+    90deg,
+    var(--bg-tertiary) 0%,
+    var(--bg-elevated) 50%,
+    var(--bg-tertiary) 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+.video-card-skeleton { pointer-events: none; }
+.skeleton-title { height: 20px; width: 80%; border-radius: var(--radius-sm); margin-bottom: var(--space-2); }
+.skeleton-meta { height: 16px; width: 60%; border-radius: var(--radius-sm); }
+.skeleton-description { height: 14px; width: 100%; border-radius: var(--radius-sm); margin-top: var(--space-2); }
+.skeleton-tags { display: flex; gap: var(--space-2); margin-top: var(--space-2); }
+.skeleton-tag { height: 20px; width: 60px; border-radius: var(--radius-sm); }
