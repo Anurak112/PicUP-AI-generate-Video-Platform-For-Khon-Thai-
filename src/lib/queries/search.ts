@@ -73,7 +73,7 @@ export async function semanticSearch(
  */
 export async function findSimilarVideos(videoId: string, limit: number = 10) {
     // Get the video's embedding
-    const embedding = await prisma.videoEmbedding.findFirst({
+    const embedding = await (prisma.videoEmbedding as any).findFirst({
         where: {
             videoId,
             embeddingType: EmbeddingType.COMBINED,
@@ -173,7 +173,7 @@ export async function createVideoEmbedding(
 ) {
     const embedding = await generateEmbedding(sourceText)
 
-    return await prisma.videoEmbedding.upsert({
+    return await (prisma.videoEmbedding as any).upsert({
         where: {
             videoId_embeddingType: {
                 videoId,

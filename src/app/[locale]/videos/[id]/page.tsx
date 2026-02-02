@@ -11,26 +11,40 @@ const mockVideoData: Video = {
     id: '1',
     thumbnail: 'https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=1200&h=675&fit=crop',
     title: 'Cyberpunk City Animation',
+    slug: 'cyberpunk-city-animation',
     creator: 'AI Artist Pro',
     views: '125K',
+    viewCount: 125000,
     duration: '0:30',
-    category: 'Sci-Fi',
+    category: {
+        id: 'sci-fi',
+        name: 'Sci-Fi',
+        slug: 'sci-fi'
+    },
     description: 'A futuristic cyberpunk city visualization generated using the latest AI video models. Features neon lights, flying cars, and rain effects.',
 
     // AI Metadata
-    prompt: 'futuristic cyberpunk city, neon lights, rain, flying cars, high detail, 8k, cinematic lighting, photorealistic',
-    negativePrompt: 'low quality, blurry, distorted, watermark',
-    modelName: 'Sora',
-    modelVersion: 'v1.0',
-    seed: '123456789',
-    steps: 50,
-    guidanceTrace: 7.5,
+    aiMetadata: {
+        prompt: 'futuristic cyberpunk city, neon lights, rain, flying cars, high detail, 8k, cinematic lighting, photorealistic',
+        negativePrompt: 'low quality, blurry, distorted, watermark',
+        modelName: 'Sora',
+        modelVersion: 'v1.0',
+        seed: 123456789,
+        steps: 50,
+        guidanceScale: 7.5,
+    },
 
     // Technical
-    resolution: '3840x2160',
-    fps: 60,
-    format: 'MP4',
-    size: '150MB',
+    files: [
+        {
+            id: 'f1',
+            fileType: 'ORIGINAL',
+            width: 3840,
+            height: 2160,
+            fps: 60,
+            sizeBytes: 157286400, // 150MB
+        }
+    ],
     createdAt: '2023-10-15',
     videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4' // Public domain sample
 };

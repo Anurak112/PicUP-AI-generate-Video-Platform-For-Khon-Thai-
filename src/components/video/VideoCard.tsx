@@ -22,10 +22,10 @@ export const VideoCard: React.FC<VideoCardProps> = ({
     const locale = useLocale();
 
     // derived/fallback values
-    const duration = video.duration || 0;
-    const thumbnail = video.thumbnailUrl || '/api/placeholder/400/225';
+    const duration = Number(video.duration) || 0;
+    const thumbnail = video.thumbnailUrl || video.thumbnail || '/api/placeholder/400/225';
     const modelName = video.aiMetadata?.modelName || 'AI Generated';
-    const uploadDate = new Date(video.createdAt);
+    const uploadDate = typeof video.createdAt === 'string' ? new Date(video.createdAt) : video.createdAt;
 
     // Technical info extraction (fallback mock logic if files empty)
     const resolution = video.files && video.files.length > 0
@@ -90,7 +90,7 @@ export const VideoCard: React.FC<VideoCardProps> = ({
                 <div className="video-card-meta">
                     <span className="meta-item">
                         <Eye size={14} />
-                        {formatViews(video.viewCount)}
+                        {formatViews(Number(video.viewCount) || 0)}
                     </span>
                     <span className="meta-divider">•</span>
                     <span className="meta-item">
