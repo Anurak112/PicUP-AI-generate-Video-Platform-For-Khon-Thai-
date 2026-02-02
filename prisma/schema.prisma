@@ -42,6 +42,7 @@ model User {
   videos        Video[]
   apiKeys       ApiKey[]
   downloads     Download[]
+  generations   Generation[]
   
   @@index([email])
   @@index([username])
@@ -98,6 +99,7 @@ model Video {
   embeddings    VideoEmbedding[]
   downloads     Download[]
   processingJobs ProcessingJob[]
+  generation     Generation?
   
   @@index([uploaderId])
   @@index([categoryId])
@@ -400,4 +402,62 @@ enum JobStatus {
   COMPLETED
   FAILED
   CANCELLED
+}
+
+// ============================================================================
+// AI GENERATIONS
+// ============================================================================
+
+model Generation {
+  id            String           @id @default(uuid())
+  userId        String?
+  
+  prompt        String           @db.Text
+  negativePrompt String?         @db.Text
+  
+  // Structured categories (from user's workflow)
+  subject       String?
+  environment   String?
+  cinematic     String?
+  style         String?
+  
+  type          GenerationType
+  status        GenerationStatus @default(PENDING)
+  
+  // Results
+  outputUrl     String?          @db.Text
+  thumbnailUrl  String?          @db.Text
+  falRequestId  String?          @unique
+  
+  // Configuration
+  modelName     String
+  aspectRatio   String?          @default("16:9")
+  config        Json?            // Seed, steps, guidance etc.
+  
+  // Timestamps
+  createdAt     DateTime         @default(now())
+  updatedAt     DateTime         @updatedAt
+  completedAt   DateTime?
+  
+  // Relations
+  user          User?            @relation(fields: [userId], references: [id], onDelete: SetNull)
+  video         Video?           @relation(fields: [videoId], references: [id])
+  videoId       String?          @unique
+
+  @@index([userId])
+  @@index([falRequestId])
+  @@index([status])
+  @@map("generations")
+}
+
+enum GenerationType {
+  IMAGE
+  VIDEO
+}
+
+enum GenerationStatus {
+  PENDING
+  PROCESSING
+  COMPLETED
+  FAILED
 }
