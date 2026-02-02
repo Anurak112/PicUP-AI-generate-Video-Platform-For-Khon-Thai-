@@ -1,5 +1,11 @@
-import { TrendingVideos } from '@/components/sections/TrendingVideos';
+import { Hero } from '@/components/sections/Hero';
+import { TopChoice } from '@/components/sections/TopChoice';
 
 export default function Home() {
-  return <TrendingVideos />;
+  return (
+    <main>
+      <Hero />
+      <TopChoice />
+    </main>
+  );
 }

@@ -8,16 +8,36 @@
     },
     "hero": {
         "badge": "Powered by AI • {count}+ Videos",
-        "title": "Discover Premium",
-        "titleGradient": "AI-Generated Videos",
-        "description": "Browse thousands of high-quality AI-generated videos. Perfect for creators, marketers, and developers. Download, use, and build amazing projects.",
-        "exploreButton": "Explore Videos",
+        "title": "WHAT WILL YOU",
+        "titleGradient": "CREATE TODAY?",
+        "description": "Create authentic images and videos with natural texture and easy style.",
+        "exploreButton": "Explore all tools",
         "learnMore": "Learn More",
         "stats": {
             "videos": "Videos",
             "models": "AI Models",
             "free": "Free to Use"
         }
+    },
+    "toolGrid": {
+        "createImage": "Create Image",
+        "createVideo": "Create Video",
+        "motionControl": "Motion Control",
+        "editImage": "Edit Image",
+        "nanoBanana": "Nano Banana Pro",
+        "klingVideo": "Kling Video Edit",
+        "upscale": "Upscale"
+    },
+    "topChoice": {
+        "title": "TOP CHOICE",
+        "subtitle": "Creator-recommended tools tailored for you",
+        "seeAll": "See all",
+        "klingMotion": "Kling Motion Control",
+        "aiInfluencer": "AI Influencer Studio",
+        "skinEnhancer": "Skin Enhancer",
+        "kling26": "Kling 2.6",
+        "angles20": "Angles 2.0",
+        "faceSwap": "Face Swap"
     },
     "features": {
         "title": "Why Choose {brand}?",
