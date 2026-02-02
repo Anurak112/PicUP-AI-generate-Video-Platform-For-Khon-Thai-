@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { TrendingUp, Flame, Clock, ChevronDown } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { VideoCard } from '../ui/VideoCard';
+import { categories } from '@/data/categories';
 import './TrendingVideos.css';
 
 interface Video {
@@ -94,59 +95,90 @@ const mockVideos: Video[] = [
 export const TrendingVideos: React.FC = () => {
     const t = useTranslations('trending');
     const [sortBy, setSortBy] = useState<'newest' | 'trending'>('trending');
-    const [dropdownOpen, setDropdownOpen] = useState(false);
+    const [selectedCategory, setSelectedCategory] = useState('all');
+    const [sortDropdownOpen, setSortDropdownOpen] = useState(false);
+    const [categoryDropdownOpen, setCategoryDropdownOpen] = useState(false);
 
     const sortOptions = [
         { value: 'trending', label: t('sort.trending'), icon: <TrendingUp size={16} /> },
         { value: 'newest', label: t('sort.newest'), icon: <Clock size={16} /> },
     ];
 
-    const selectedOption = sortOptions.find(opt => opt.value === sortBy) || sortOptions[0];
+    const selectedSortOption = sortOptions.find(opt => opt.value === sortBy) || sortOptions[0];
+    const selectedCategoryOption = categories.find(cat => cat.slug === selectedCategory) || categories[0];
 
     return (
         <section className="trending-section section">
             <div className="container">
-                {/* Header */}
-                <div className="trending-header">
-                    <div className="trending-title-wrapper">
-                        <Flame size={32} className="trending-icon" />
-                        <h1 className="trending-title">{t('title')}</h1>
+                {/* Filters Row */}
+                <div className="trending-filters-row">
+                    <div className="trending-sort">
+                        <span className="sort-label">{t('sort.label')}</span>
+                        <div className={`dropdown ${sortDropdownOpen ? 'open' : ''}`}>
+                            <button
+                                className="dropdown-toggle"
+                                onClick={() => setSortDropdownOpen(!sortDropdownOpen)}
+                                onBlur={() => setTimeout(() => setSortDropdownOpen(false), 200)}
+                            >
+                                <span className="dropdown-content">
+                                    {selectedSortOption.icon}
+                                    {selectedSortOption.label}
+                                </span>
+                                <ChevronDown size={16} className={`dropdown-arrow ${sortDropdownOpen ? 'open' : ''}`} />
+                            </button>
+                            <div className="dropdown-menu">
+                                {sortOptions.map((option) => (
+                                    <button
+                                        key={option.value}
+                                        className={`dropdown-item ${sortBy === option.value ? 'active' : ''}`}
+                                        onClick={() => {
+                                            setSortBy(option.value as 'newest' | 'trending');
+                                            setSortDropdownOpen(false);
+                                        }}
+                                    >
+                                        <span className="dropdown-item-content">
+                                            {option.icon}
+                                            {option.label}
+                                        </span>
+                                        {sortBy === option.value && <span className="dropdown-check">✓</span>}
+                                    </button>
+                                ))}
+                            </div>
+                        </div>
                     </div>
-                    <p className="trending-subtitle">{t('subtitle')}</p>
-                </div>
 
-                {/* Sort Dropdown */}
-                <div className="trending-sort">
-                    <span className="sort-label">{t('sort.label')}</span>
-                    <div className={`dropdown ${dropdownOpen ? 'open' : ''}`}>
-                        <button
-                            className="dropdown-toggle"
-                            onClick={() => setDropdownOpen(!dropdownOpen)}
-                            onBlur={() => setTimeout(() => setDropdownOpen(false), 200)}
-                        >
-                            <span className="dropdown-content">
-                                {selectedOption.icon}
-                                {selectedOption.label}
-                            </span>
-                            <ChevronDown size={16} className={`dropdown-arrow ${dropdownOpen ? 'open' : ''}`} />
-                        </button>
-                        <div className="dropdown-menu">
-                            {sortOptions.map((option) => (
-                                <button
-                                    key={option.value}
-                                    className={`dropdown-item ${sortBy === option.value ? 'active' : ''}`}
-                                    onClick={() => {
-                                        setSortBy(option.value as 'newest' | 'trending');
-                                        setDropdownOpen(false);
-                                    }}
-                                >
-                                    <span className="dropdown-item-content">
-                                        {option.icon}
-                                        {option.label}
-                                    </span>
-                                    {sortBy === option.value && <span className="dropdown-check">✓</span>}
-                                </button>
-                            ))}
+                    <div className="trending-sort">
+                        <span className="sort-label">Category:</span>
+                        <div className={`dropdown ${categoryDropdownOpen ? 'open' : ''}`}>
+                            <button
+                                className="dropdown-toggle"
+                                onClick={() => setCategoryDropdownOpen(!categoryDropdownOpen)}
+                                onBlur={() => setTimeout(() => setCategoryDropdownOpen(false), 200)}
+                            >
+                                <span className="dropdown-content">
+                                    <span style={{ fontSize: '1.2rem' }}>{selectedCategoryOption.icon}</span>
+                                    {selectedCategoryOption.name}
+                                </span>
+                                <ChevronDown size={16} className={`dropdown-arrow ${categoryDropdownOpen ? 'open' : ''}`} />
+                            </button>
+                            <div className="dropdown-menu categories-menu">
+                                {categories.map((category) => (
+                                    <button
+                                        key={category.id}
+                                        className={`dropdown-item ${selectedCategory === category.slug ? 'active' : ''}`}
+                                        onClick={() => {
+                                            setSelectedCategory(category.slug);
+                                            setCategoryDropdownOpen(false);
+                                        }}
+                                    >
+                                        <span className="dropdown-item-content">
+                                            <span>{category.icon}</span>
+                                            {category.name}
+                                        </span>
+                                        {selectedCategory === category.slug && <span className="dropdown-check">✓</span>}
+                                    </button>
+                                ))}
+                            </div>
                         </div>
                     </div>
                 </div>

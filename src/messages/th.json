@@ -62,8 +62,73 @@
             "dmca": "DMCA"
         }
     },
+    "trending": {
+        "title": "วิดีโอยอดนิยม",
+        "subtitle": "ค้นพบวิดีโอ AI ที่กำลังเป็นที่สนใจตอนนี้",
+        "sort": {
+            "label": "เรียงตาม:",
+            "trending": "ยอดนิยม",
+            "newest": "ล่าสุด"
+        },
+        "loadMore": "โหลดเพิ่มเติม"
+    },
     "metadata": {
         "title": "PicUp - แพลตฟอร์มวิดีโอ AI สำหรับคนไทย",
         "description": "แพลตฟอร์มวิดีโอ AI สำหรับคนไทย ค้นหา แชร์ และดาวน์โหลดวิดีโอ AI คุณภาพสูง สร้างด้วยความรักสำหรับครีเอเตอร์คนไทย"
+    },
+    "upload": {
+        "title": "อัปโหลด",
+        "subtitle": "แชร์ผลงาน AI ของคุณกับโลก",
+        "dropzone": {
+            "title": "ลากและวางวิดีโอของคุณที่นี่",
+            "subtitle": "หรือคลิกเพื่อเลือกไฟล์",
+            "browse": "เลือกไฟล์วิดีโอ",
+            "formats": "รองรับ: MP4, WebM, MOV • ขนาดสูงสุด: 500MB"
+        },
+        "form": {
+            "videoDetails": "รายละเอียดวิดีโอ",
+            "title": "ชื่อเรื่อง",
+            "titlePlaceholder": "ใส่ชื่อที่อธิบายวิดีโอ",
+            "description": "คำอธิบาย",
+            "descriptionPlaceholder": "อธิบายวิดีโอของคุณ...",
+            "tags": "แท็ก (สูงสุด 10)",
+            "tagsPlaceholder": "พิมพ์แล้วกด Enter",
+            "tagsHint": "กด Enter หรือคอมม่าเพื่อเพิ่มแท็ก"
+        },
+        "aiMetadata": {
+            "title": "ข้อมูลการสร้าง AI",
+            "subtitle": "ช่วยให้ผู้อื่นค้นพบและเรียนรู้จากคอนเทนต์ AI ของคุณ",
+            "model": "โมเดล AI",
+            "prompt": "Prompt",
+            "promptPlaceholder": "Prompt ที่ใช้สร้างวิดีโอนี้...",
+            "negativePrompt": "Negative Prompt",
+            "negativePromptPlaceholder": "สิ่งที่ต้องการหลีกเลี่ยงในการสร้าง...",
+            "seed": "Seed",
+            "steps": "Steps",
+            "guidanceScale": "Guidance Scale (CFG)"
+        },
+        "actions": {
+            "continue": "ดำเนินการต่อ",
+            "back": "ย้อนกลับ",
+            "addAiInfo": "เพิ่มข้อมูล AI",
+            "upload": "อัปโหลดวิดีโอ"
+        },
+        "progress": {
+            "preparing": "กำลังเตรียมอัปโหลด...",
+            "uploading": "กำลังอัปโหลดวิดีโอ...",
+            "processing": "กำลังประมวลผล...",
+            "saving": "กำลังบันทึกข้อมูล..."
+        },
+        "success": {
+            "title": "อัปโหลดวิดีโอสำเร็จ!",
+            "message": "วิดีโอของคุณกำลังถูกประมวลผล จะพร้อมใช้งานในไม่ช้า",
+            "uploadAnother": "อัปโหลดอีก",
+            "browseVideos": "เรียกดูวิดีโอ"
+        },
+        "error": {
+            "invalidType": "ประเภทไฟล์ไม่ถูกต้อง รองรับ: .mp4, .webm, .mov",
+            "tooLarge": "ไฟล์มีขนาดใหญ่เกินไป สูงสุด: 500MB",
+            "uploadFailed": "อัปโหลดล้มเหลว"
+        }
     }
 }

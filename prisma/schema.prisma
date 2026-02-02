@@ -1,0 +1,403 @@
+// Prisma Schema for AI Video Platform
+// Database: Supabase (PostgreSQL) with pgvector extension
+// Storage: Cloudflare R2
+
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["postgresqlExtensions"]
+}
+
+datasource db {
+  provider   = "postgresql"
+  url        = env("DATABASE_URL")
+  directUrl  = env("DIRECT_URL")
+  extensions = [vector]
+}
+
+// ============================================================================
+// USER MANAGEMENT
+// ============================================================================
+
+model User {
+  id            String    @id @default(uuid())
+  email         String    @unique
+  username      String    @unique
+  displayName   String?
+  avatarUrl     String?
+  role          UserRole  @default(USER)
+  bio           String?
+  website       String?
+  
+  // Stats
+  totalVideos   Int       @default(0)
+  totalViews    Int       @default(0)
+  totalDownloads Int      @default(0)
+  
+  // Timestamps
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  lastLoginAt   DateTime?
+  
+  // Relations
+  videos        Video[]
+  apiKeys       ApiKey[]
+  downloads     Download[]
+  
+  @@index([email])
+  @@index([username])
+  @@map("users")
+}
+
+enum UserRole {
+  USER
+  CREATOR
+  MODERATOR
+  ADMIN
+}
+
+// ============================================================================
+// VIDEO CORE
+// ============================================================================
+
+model Video {
+  id            String        @id @default(uuid())
+  uploaderId    String
+  
+  // Basic Info
+  title         String
+  description   String?       @db.Text
+  slug          String        @unique
+  
+  // Categorization
+  categoryId    String?
+  tags          VideoTag[]
+  
+  // Licensing & Visibility
+  licenseType   LicenseType   @default(FREE)
+  visibility    Visibility    @default(PUBLIC)
+  
+  // Status
+  status        VideoStatus   @default(UPLOADING)
+  featured      Boolean       @default(false)
+  
+  // Stats
+  viewCount     Int           @default(0)
+  downloadCount Int           @default(0)
+  likeCount     Int           @default(0)
+  
+  // Timestamps
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+  publishedAt   DateTime?
+  
+  // Relations
+  uploader      User          @relation(fields: [uploaderId], references: [id], onDelete: Cascade)
+  category      Category?     @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+  files         VideoFile[]
+  aiMetadata    AiMetadata?
+  embeddings    VideoEmbedding[]
+  downloads     Download[]
+  processingJobs ProcessingJob[]
+  
+  @@index([uploaderId])
+  @@index([categoryId])
+  @@index([status])
+  @@index([featured])
+  @@index([createdAt(sort: Desc)])
+  @@index([publishedAt(sort: Desc)])
+  @@index([viewCount(sort: Desc)])
+  @@index([downloadCount(sort: Desc)])
+  @@map("videos")
+}
+
+enum VideoStatus {
+  UPLOADING
+  PROCESSING
+  READY
+  FAILED
+  DELETED
+}
+
+enum LicenseType {
+  FREE           // Free to use, no attribution
+  ATTRIBUTION    // Free with attribution required
+  COMMERCIAL     // Paid commercial license
+  PERSONAL       // Personal use only
+}
+
+enum Visibility {
+  PUBLIC
+  UNLISTED
+  PRIVATE
+}
+
+// ============================================================================
+// VIDEO FILES & STORAGE
+// ============================================================================
+
+model VideoFile {
+  id          String      @id @default(uuid())
+  videoId     String
+  
+  // File Info
+  fileType    FileType
+  storageKey  String      // R2 object key
+  cdnUrl      String?     // CDN URL if available
+  
+  // File Properties
+  sizeBytes   BigInt
+  checksum    String      // SHA-256 hash
+  mimeType    String
+  
+  // Video Properties (null for thumbnails)
+  width       Int?
+  height      Int?
+  fps         Float?
+  duration    Float?      // seconds
+  bitrate     Int?        // kbps
+  codec       String?
+  
+  // Timestamps
+  createdAt   DateTime    @default(now())
+  
+  // Relations
+  video       Video       @relation(fields: [videoId], references: [id], onDelete: Cascade)
+  
+  @@index([videoId])
+  @@index([fileType])
+  @@map("video_files")
+}
+
+enum FileType {
+  ORIGINAL      // Original uploaded file
+  PREVIEW_MP4   // Web-optimized MP4
+  HLS_MASTER    // HLS master playlist
+  HLS_SEGMENT   // HLS video segment
+  THUMBNAIL     // Thumbnail image
+  GIF_PREVIEW   // Animated GIF preview
+}
+
+// ============================================================================
+// AI METADATA
+// ============================================================================
+
+model AiMetadata {
+  id              String    @id @default(uuid())
+  videoId         String    @unique
+  
+  // Model Info
+  modelName       String
+  modelVersion    String?
+  generatorApp    String?   // e.g., "Runway", "Pika", "Stable Diffusion"
+  
+  // Generation Parameters
+  prompt          String?   @db.Text
+  negativePrompt  String?   @db.Text
+  seed            BigInt?
+  steps           Int?
+  guidanceScale   Float?
+  sampler         String?
+  
+  // Source Inputs (JSON)
+  sourceInputs    Json?     // { "images": [...], "videos": [...], "loras": [...] }
+  
+  // Additional Parameters (JSON)
+  generationParams Json?    // Any other model-specific params
+  
+  // Timestamps
+  generatedAt     DateTime?
+  createdAt       DateTime  @default(now())
+  
+  // Relations
+  video           Video     @relation(fields: [videoId], references: [id], onDelete: Cascade)
+  
+  @@index([modelName])
+  @@index([generatorApp])
+  @@map("ai_metadata")
+}
+
+// ============================================================================
+// VECTOR EMBEDDINGS (pgvector)
+// ============================================================================
+
+model VideoEmbedding {
+  id              String                      @id @default(uuid())
+  videoId         String
+  
+  embeddingType   EmbeddingType
+  embedding       Unsupported("vector(1536)") // OpenAI ada-002 dimension
+  sourceText      String                      @db.Text
+  
+  createdAt       DateTime                    @default(now())
+  
+  // Relations
+  video           Video                       @relation(fields: [videoId], references: [id], onDelete: Cascade)
+  
+  @@index([videoId])
+  @@index([embeddingType])
+  // Vector index created via raw SQL migration
+  @@map("video_embeddings")
+}
+
+enum EmbeddingType {
+  TITLE_DESCRIPTION  // From title + description
+  PROMPT             // From AI prompt
+  COMBINED           // All text combined
+  VISUAL             // From video frames (future)
+}
+
+// ============================================================================
+// CATEGORIES & TAGS
+// ============================================================================
+
+model Category {
+  id          String      @id @default(uuid())
+  name        String      @unique
+  slug        String      @unique
+  description String?
+  icon        String?     // Icon name or emoji
+  parentId    String?
+  
+  // Stats
+  videoCount  Int         @default(0)
+  
+  // Relations
+  parent      Category?   @relation("CategoryHierarchy", fields: [parentId], references: [id])
+  children    Category[]  @relation("CategoryHierarchy")
+  videos      Video[]
+  
+  @@index([slug])
+  @@index([parentId])
+  @@map("categories")
+}
+
+model Tag {
+  id          String      @id @default(uuid())
+  name        String      @unique
+  slug        String      @unique
+  usageCount  Int         @default(0)
+  
+  // Relations
+  videos      VideoTag[]
+  
+  @@index([slug])
+  @@index([usageCount(sort: Desc)])
+  @@map("tags")
+}
+
+model VideoTag {
+  videoId     String
+  tagId       String
+  
+  video       Video       @relation(fields: [videoId], references: [id], onDelete: Cascade)
+  tag         Tag         @relation(fields: [tagId], references: [id], onDelete: Cascade)
+  
+  @@id([videoId, tagId])
+  @@index([videoId])
+  @@index([tagId])
+  @@map("video_tags")
+}
+
+// ============================================================================
+// DOWNLOADS & ANALYTICS
+// ============================================================================
+
+model Download {
+  id          String      @id @default(uuid())
+  videoId     String
+  userId      String?
+  
+  fileType    FileType
+  
+  // Request Info
+  ipAddress   String?
+  userAgent   String?
+  referrer    String?
+  country     String?
+  
+  createdAt   DateTime    @default(now())
+  
+  // Relations
+  video       Video       @relation(fields: [videoId], references: [id], onDelete: Cascade)
+  user        User?       @relation(fields: [userId], references: [id], onDelete: SetNull)
+  
+  @@index([videoId])
+  @@index([userId])
+  @@index([createdAt(sort: Desc)])
+  @@map("downloads")
+}
+
+// ============================================================================
+// API KEYS (for AI generators)
+// ============================================================================
+
+model ApiKey {
+  id          String      @id @default(uuid())
+  userId      String
+  
+  name        String
+  keyHash     String      @unique  // SHA-256 hash of the key
+  keyPrefix   String                // First 8 chars for identification
+  
+  // Permissions & Limits
+  permissions Json                  // { "read": true, "write": true, "delete": false }
+  rateLimit   Int         @default(1000)  // requests per hour
+  
+  // Status
+  isActive    Boolean     @default(true)
+  
+  // Timestamps
+  createdAt   DateTime    @default(now())
+  lastUsedAt  DateTime?
+  expiresAt   DateTime?
+  
+  // Relations
+  user        User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  @@index([userId])
+  @@index([keyHash])
+  @@map("api_keys")
+}
+
+// ============================================================================
+// BACKGROUND JOBS
+// ============================================================================
+
+model ProcessingJob {
+  id            String      @id @default(uuid())
+  videoId       String
+  
+  jobType       JobType
+  status        JobStatus   @default(PENDING)
+  
+  progress      Int         @default(0)  // 0-100
+  errorMessage  String?     @db.Text
+  
+  // Timestamps
+  createdAt     DateTime    @default(now())
+  startedAt     DateTime?
+  completedAt   DateTime?
+  
+  // Relations
+  video         Video       @relation(fields: [videoId], references: [id], onDelete: Cascade)
+  
+  @@index([videoId])
+  @@index([status])
+  @@index([jobType])
+  @@map("processing_jobs")
+}
+
+enum JobType {
+  TRANSCODE
+  THUMBNAIL_GENERATION
+  EMBEDDING_GENERATION
+  METADATA_EXTRACTION
+}
+
+enum JobStatus {
+  PENDING
+  RUNNING
+  COMPLETED
+  FAILED
+  CANCELLED
+}

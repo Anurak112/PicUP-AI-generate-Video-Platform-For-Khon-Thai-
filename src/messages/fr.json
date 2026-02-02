@@ -62,8 +62,73 @@
             "dmca": "DMCA"
         }
     },
+    "trending": {
+        "title": "Vidéos Tendances",
+        "subtitle": "Découvrez les vidéos IA les plus chaudes du moment",
+        "sort": {
+            "label": "Trier par:",
+            "trending": "Tendances",
+            "newest": "Plus récent"
+        },
+        "loadMore": "Charger Plus de Vidéos"
+    },
     "metadata": {
         "title": "PicUp - Plateforme de Vidéos IA Thaïlandaise",
         "description": "Plateforme de vidéos IA pour la Thaïlande. Recherchez, partagez et téléchargez des vidéos IA de haute qualité. Créé avec amour pour les créateurs thaïlandais."
+    },
+    "upload": {
+        "title": "Télécharger",
+        "subtitle": "Partagez votre chef-d'œuvre IA avec le monde",
+        "dropzone": {
+            "title": "Glissez et déposez votre vidéo ici",
+            "subtitle": "ou cliquez pour parcourir les fichiers",
+            "browse": "Sélectionner un fichier vidéo",
+            "formats": "Formats pris en charge: MP4, WebM, MOV • Taille max: 500Mo"
+        },
+        "form": {
+            "videoDetails": "Détails de la Vidéo",
+            "title": "Titre",
+            "titlePlaceholder": "Entrez un titre descriptif",
+            "description": "Description",
+            "descriptionPlaceholder": "Décrivez votre vidéo...",
+            "tags": "Tags (jusqu'à 10)",
+            "tagsPlaceholder": "Tapez et appuyez sur Entrée",
+            "tagsHint": "Appuyez sur Entrée ou virgule pour ajouter des tags"
+        },
+        "aiMetadata": {
+            "title": "Détails de Génération IA",
+            "subtitle": "Aidez les autres à découvrir et apprendre de votre contenu IA.",
+            "model": "Modèle IA",
+            "prompt": "Prompt",
+            "promptPlaceholder": "Le prompt utilisé pour générer cette vidéo...",
+            "negativePrompt": "Prompt Négatif",
+            "negativePromptPlaceholder": "Ce qu'il faut éviter dans la génération...",
+            "seed": "Seed",
+            "steps": "Étapes",
+            "guidanceScale": "Échelle de Guidance (CFG)"
+        },
+        "actions": {
+            "continue": "Continuer",
+            "back": "Retour",
+            "addAiInfo": "Ajouter Info IA",
+            "upload": "Télécharger la Vidéo"
+        },
+        "progress": {
+            "preparing": "Préparation du téléchargement...",
+            "uploading": "Téléchargement de la vidéo...",
+            "processing": "Traitement...",
+            "saving": "Enregistrement des métadonnées..."
+        },
+        "success": {
+            "title": "Vidéo Téléchargée avec Succès!",
+            "message": "Votre vidéo est en cours de traitement. Elle sera disponible bientôt.",
+            "uploadAnother": "Télécharger une Autre",
+            "browseVideos": "Parcourir les Vidéos"
+        },
+        "error": {
+            "invalidType": "Type de fichier invalide. Formats autorisés: .mp4, .webm, .mov",
+            "tooLarge": "Fichier trop volumineux. Maximum: 500Mo",
+            "uploadFailed": "Échec du téléchargement"
+        }
     }
 }

@@ -62,8 +62,73 @@
             "dmca": "DMCA"
         }
     },
+    "trending": {
+        "title": "ວິດີໂອຍອດນິຍົມ",
+        "subtitle": "ຄົ້ນພົບວິດີໂອ AI ທີ່ຮ້ອນແຮງທີ່ສຸດໃນຕອນນີ້",
+        "sort": {
+            "label": "ຈັດລຽງຕາມ:",
+            "trending": "ຍອດນິຍົມ",
+            "newest": "ລ່າສຸດ"
+        },
+        "loadMore": "ໂຫຼດເພີ່ມເຕີມ"
+    },
     "metadata": {
         "title": "PicUp - ແພລດຟອມວິດີໂອ AI ສຳລັບຄົນລາວ",
         "description": "ແພລດຟອມວິດີໂອ AI ສຳລັບຄົນລາວ ຄົ້ນຫາ ແບ່ງປັນ ແລະ ດາວໂຫລດວິດີໂອ AI ຄຸນນະພາບສູງ ສ້າງດ້ວຍຄວາມຮັກສຳລັບຜູ້ສ້າງສັນຄົນລາວ"
+    },
+    "upload": {
+        "title": "ອັບໂຫລດ",
+        "subtitle": "ແບ່ງປັນຜົນງານ AI ຂອງທ່ານກັບໂລກ",
+        "dropzone": {
+            "title": "ລາກ ແລະ ວາງວິດີໂອຂອງທ່ານທີ່ນີ້",
+            "subtitle": "ຫຼື ຄລິກເພື່ອເລືອກໄຟລ໌",
+            "browse": "ເລືອກໄຟລ໌ວິດີໂອ",
+            "formats": "ຮອງຮັບ: MP4, WebM, MOV • ຂະໜາດສູງສຸດ: 500MB"
+        },
+        "form": {
+            "videoDetails": "ລາຍລະອຽດວິດີໂອ",
+            "title": "ຊື່ເລື່ອງ",
+            "titlePlaceholder": "ໃສ່ຊື່ທີ່ອະທິບາຍວິດີໂອ",
+            "description": "ຄຳອະທິບາຍ",
+            "descriptionPlaceholder": "ອະທິບາຍວິດີໂອຂອງທ່ານ...",
+            "tags": "ແທັກ (ສູງສຸດ 10)",
+            "tagsPlaceholder": "ພິມແລ້ວກົດ Enter",
+            "tagsHint": "ກົດ Enter ຫຼື ຄອມມ່າເພື່ອເພີ່ມແທັກ"
+        },
+        "aiMetadata": {
+            "title": "ຂໍ້ມູນການສ້າງ AI",
+            "subtitle": "ຊ່ວຍໃຫ້ຜູ້ອື່ນຄົ້ນພົບ ແລະ ຮຽນຮູ້ຈາກເນື້ອຫາ AI ຂອງທ່ານ",
+            "model": "ໂມເດລ AI",
+            "prompt": "Prompt",
+            "promptPlaceholder": "Prompt ທີ່ໃຊ້ສ້າງວິດີໂອນີ້...",
+            "negativePrompt": "Negative Prompt",
+            "negativePromptPlaceholder": "ສິ່ງທີ່ຕ້ອງການຫຼີກລ່ຽງໃນການສ້າງ...",
+            "seed": "Seed",
+            "steps": "Steps",
+            "guidanceScale": "Guidance Scale (CFG)"
+        },
+        "actions": {
+            "continue": "ດຳເນີນການຕໍ່",
+            "back": "ຍ້ອນກັບ",
+            "addAiInfo": "ເພີ່ມຂໍ້ມູນ AI",
+            "upload": "ອັບໂຫລດວິດີໂອ"
+        },
+        "progress": {
+            "preparing": "ກຳລັງກຽມອັບໂຫລດ...",
+            "uploading": "ກຳລັງອັບໂຫລດວິດີໂອ...",
+            "processing": "ກຳລັງປະມວນຜົນ...",
+            "saving": "ກຳລັງບັນທຶກຂໍ້ມູນ..."
+        },
+        "success": {
+            "title": "ອັບໂຫລດວິດີໂອສຳເລັດ!",
+            "message": "ວິດີໂອຂອງທ່ານກຳລັງຖືກປະມວນຜົນ ຈະພ້ອມໃຊ້ງານໃນໄວໆນີ້",
+            "uploadAnother": "ອັບໂຫລດອີກ",
+            "browseVideos": "ເບິ່ງວິດີໂອ"
+        },
+        "error": {
+            "invalidType": "ປະເພດໄຟລ໌ບໍ່ຖືກຕ້ອງ ຮອງຮັບ: .mp4, .webm, .mov",
+            "tooLarge": "ໄຟລ໌ມີຂະໜາດໃຫຍ່ເກີນໄປ ສູງສຸດ: 500MB",
+            "uploadFailed": "ອັບໂຫລດລົ້ມເຫລວ"
+        }
     }
 }

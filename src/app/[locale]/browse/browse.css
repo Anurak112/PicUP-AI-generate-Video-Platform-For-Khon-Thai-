@@ -33,6 +33,94 @@
     display: flex;
     gap: var(--space-4);
     flex-wrap: wrap;
+    margin-top: var(--space-4);
+}
+
+/* Search Section */
+.browse-search-section {
+    margin-bottom: var(--space-6);
+    max-width: 600px;
+}
+
+.search-bar-container {
+    width: 100%;
+}
+
+.search-input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-lg);
+    padding: 0 var(--space-3);
+    transition: all 0.2s ease;
+}
+
+.search-input-wrapper:focus-within {
+    border-color: var(--accent-primary);
+    box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.1);
+}
+
+.search-input-wrapper.semantic-mode {
+    border-color: var(--accent-secondary);
+    /* Purple/Pink for AI */
+    background: linear-gradient(to right, rgba(168, 85, 247, 0.05), rgba(236, 72, 153, 0.05));
+}
+
+.search-input-wrapper.semantic-mode:focus-within {
+    box-shadow: 0 0 0 2px rgba(168, 85, 247, 0.2);
+}
+
+.search-icon {
+    color: var(--text-muted);
+    min-width: 20px;
+}
+
+.search-input {
+    width: 100%;
+    padding: var(--space-3);
+    background: transparent;
+    border: none;
+    color: var(--text-primary);
+    font-size: 1rem;
+}
+
+.search-input:focus {
+    outline: none;
+}
+
+.semantic-toggle {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-1) var(--space-3);
+    background: transparent;
+    border: 1px solid transparent;
+    border-radius: var(--radius-full);
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.semantic-toggle:hover {
+    background: var(--bg-tertiary);
+    color: var(--text-primary);
+}
+
+.semantic-toggle.active {
+    background: linear-gradient(135deg, var(--accent-secondary), var(--accent-primary));
+    color: white;
+    border-color: transparent;
+    box-shadow: 0 2px 4px rgba(168, 85, 247, 0.3);
+}
+
+.search-term {
+    font-style: italic;
+    color: var(--text-primary);
+    font-weight: 500;
 }
 
 /* Results Info */

@@ -24,18 +24,6 @@ export const Navbar: React.FC = () => {
 
                     {/* Desktop Navigation */}
                     <div className="navbar-links">
-                        <Link href={`/${locale}/browse`} className="navbar-link">
-                            {t('browse')}
-                        </Link>
-                        <Link href={`/${locale}/categories`} className="navbar-link">
-                            {t('categories')}
-                        </Link>
-                        <Link href={`/${locale}/about`} className="navbar-link">
-                            {t('about')}
-                        </Link>
-                        <Link href={`/${locale}/api`} className="navbar-link">
-                            {t('api')}
-                        </Link>
                     </div>
 
                     {/* Desktop Actions */}
@@ -65,18 +53,6 @@ export const Navbar: React.FC = () => {
                 {/* Mobile Menu */}
                 {mobileMenuOpen && (
                     <div className="navbar-mobile-menu">
-                        <Link href={`/${locale}/browse`} className="navbar-mobile-link">
-                            {t('browse')}
-                        </Link>
-                        <Link href={`/${locale}/categories`} className="navbar-mobile-link">
-                            {t('categories')}
-                        </Link>
-                        <Link href={`/${locale}/about`} className="navbar-mobile-link">
-                            {t('about')}
-                        </Link>
-                        <Link href={`/${locale}/api`} className="navbar-mobile-link">
-                            {t('api')}
-                        </Link>
                         <div className="navbar-mobile-actions">
                             <LanguageSwitcher />
                             <Link href={`/${locale}/upload`} className="w-full">

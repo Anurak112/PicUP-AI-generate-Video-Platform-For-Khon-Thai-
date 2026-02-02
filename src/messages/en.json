@@ -62,8 +62,73 @@
             "dmca": "DMCA"
         }
     },
+    "trending": {
+        "title": "Trending Videos",
+        "subtitle": "Discover the hottest AI-generated videos right now",
+        "sort": {
+            "label": "Sort by:",
+            "trending": "Trending",
+            "newest": "Newest"
+        },
+        "loadMore": "Load More Videos"
+    },
     "metadata": {
         "title": "PicUp - Thai AI Generated Video Platform (For Khon Thai)",
         "description": "แพลตฟอร์มวิดีโอ AI สำหรับคนไทย ค้นหา แชร์ และดาวน์โหลดวิดีโอ AI คุณภาพสูง สร้างด้วยความรักสำหรับครีเอเตอร์คนไทย"
+    },
+    "upload": {
+        "title": "Upload",
+        "subtitle": "Share your AI-generated masterpiece with the world",
+        "dropzone": {
+            "title": "Drag and drop your video here",
+            "subtitle": "or click to browse files",
+            "browse": "Select video file",
+            "formats": "Supported formats: MP4, WebM, MOV • Max size: 500MB"
+        },
+        "form": {
+            "videoDetails": "Video Details",
+            "title": "Title",
+            "titlePlaceholder": "Enter a descriptive title",
+            "description": "Description",
+            "descriptionPlaceholder": "Describe your video...",
+            "tags": "Tags (up to 10)",
+            "tagsPlaceholder": "Type and press Enter",
+            "tagsHint": "Press Enter or comma to add tags"
+        },
+        "aiMetadata": {
+            "title": "AI Generation Details",
+            "subtitle": "Help others discover and learn from your AI-generated content.",
+            "model": "AI Model",
+            "prompt": "Prompt",
+            "promptPlaceholder": "The prompt used to generate this video...",
+            "negativePrompt": "Negative Prompt",
+            "negativePromptPlaceholder": "What to avoid in generation...",
+            "seed": "Seed",
+            "steps": "Steps",
+            "guidanceScale": "Guidance Scale (CFG)"
+        },
+        "actions": {
+            "continue": "Continue",
+            "back": "Back",
+            "addAiInfo": "Add AI Info",
+            "upload": "Upload Video"
+        },
+        "progress": {
+            "preparing": "Preparing upload...",
+            "uploading": "Uploading video...",
+            "processing": "Processing...",
+            "saving": "Saving metadata..."
+        },
+        "success": {
+            "title": "Video Uploaded Successfully!",
+            "message": "Your video is now being processed. It will be available shortly.",
+            "uploadAnother": "Upload Another",
+            "browseVideos": "Browse Videos"
+        },
+        "error": {
+            "invalidType": "Invalid file type. Allowed formats: .mp4, .webm, .mov",
+            "tooLarge": "File size too large. Maximum: 500MB",
+            "uploadFailed": "Upload failed"
+        }
     }
 }

@@ -1,13 +1,14 @@
 import { Category } from '@/types/video';
 
 // Category definitions with icons and descriptions
+// IDs matched to what we might expect from seed data (usually UUIDs, but using slugs for mock)
 export const categories: Category[] = [
     {
         id: 'all',
         name: 'All Videos',
         slug: 'all',
         icon: '🎬',
-        count: 0, // Will be calculated dynamically
+        count: 0,
         description: 'Browse all available AI-generated videos'
     },
     {
@@ -27,9 +28,9 @@ export const categories: Category[] = [
         description: 'Animated cartoon-style videos with vibrant colors'
     },
     {
-        id: '3d',
-        name: '3D Render',
-        slug: '3d',
+        id: '3d-animation',
+        name: '3D Animation',
+        slug: '3d-animation',
         icon: '🎲',
         count: 0,
         description: '3D rendered scenes and animations'
@@ -67,7 +68,15 @@ export const categories: Category[] = [
         description: 'City scenes, architecture, and urban environments'
     },
     {
-        id: 'space',
+        id: 'sci-fi',
+        name: 'Sci-Fi',
+        slug: 'sci-fi',
+        icon: '🤖',
+        count: 0,
+        description: 'Science fiction and futuristic themes'
+    },
+    {
+        id: 'space', // Extra from previous mock
         name: 'Space',
         slug: 'space',
         icon: '🚀',
@@ -75,7 +84,7 @@ export const categories: Category[] = [
         description: 'Cosmic scenes, planets, and space exploration'
     },
     {
-        id: 'fantasy',
+        id: 'fantasy', // Extra
         name: 'Fantasy',
         slug: 'fantasy',
         icon: '✨',
@@ -83,15 +92,7 @@ export const categories: Category[] = [
         description: 'Magical and fantastical scenes'
     },
     {
-        id: 'scifi',
-        name: 'Sci-Fi',
-        slug: 'scifi',
-        icon: '🤖',
-        count: 0,
-        description: 'Science fiction and futuristic themes'
-    },
-    {
-        id: 'product',
+        id: 'product', // Extra
         name: 'Product',
         slug: 'product',
         icon: '📦',
@@ -117,8 +118,9 @@ export function updateCategoryCounts(videos: any[]): Category[] {
             return { ...cat, count: videos.length };
         }
         const count = videos.filter(video =>
-            video.category?.toLowerCase() === cat.name.toLowerCase() ||
-            video.tags?.some((tag: string) => tag.toLowerCase() === cat.slug.toLowerCase())
+            video.categoryId === cat.id ||
+            video.category?.slug === cat.slug ||
+            video.tags?.some((tag: any) => tag.slug === cat.slug)
         ).length;
         return { ...cat, count };
     });

@@ -2,6 +2,7 @@ import React from 'react';
 import Link from 'next/link';
 import { Github, Twitter, Mail } from 'lucide-react';
 import { useTranslations, useLocale } from 'next-intl';
+import { DonationSection } from '../sections/DonationSection';
 import './Footer.css';
 
 export const Footer: React.FC = () => {
@@ -11,6 +12,7 @@ export const Footer: React.FC = () => {
     return (
         <footer className="footer">
             <div className="container">
+                <DonationSection />
                 <div className="footer-content">
                     {/* Brand Section */}
                     <div className="footer-section">

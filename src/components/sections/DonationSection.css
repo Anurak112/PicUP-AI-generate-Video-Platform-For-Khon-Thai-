@@ -1,0 +1,142 @@
+.donation-section {
+    padding: 4rem 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: transparent;
+}
+
+.donation-card {
+    max-width: 600px;
+    width: 100%;
+    padding: 3rem;
+    background: rgba(13, 14, 21, 0.8);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(139, 92, 246, 0.3);
+    border-radius: 24px;
+    text-align: center;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4),
+        inset 0 0 20px rgba(139, 92, 246, 0.1);
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s ease, border-color 0.3s ease;
+}
+
+.donation-card:hover {
+    transform: translateY(-5px);
+    border-color: rgba(139, 92, 246, 0.6);
+}
+
+.donation-card::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(139, 92, 246, 0.1) 0%, transparent 70%);
+    pointer-events: none;
+}
+
+.donation-icon {
+    color: #8b5cf6;
+    margin-bottom: 1.5rem;
+    filter: drop-shadow(0 0 10px rgba(139, 92, 246, 0.5));
+}
+
+.donation-title {
+    font-size: 2rem;
+    font-weight: 800;
+    margin-bottom: 1rem;
+    color: #fff;
+    font-family: 'Inter', sans-serif;
+    letter-spacing: -0.02em;
+}
+
+.donation-description {
+    color: #94a3b8;
+    line-height: 1.6;
+    margin-bottom: 2rem;
+    font-size: 1.1rem;
+}
+
+.crypto-addresses {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.crypto-address-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    background: rgba(0, 0, 0, 0.3);
+    padding: 0.75rem 1rem;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.crypto-label {
+    font-weight: 700;
+    color: #8b5cf6;
+    min-width: 40px;
+    text-align: left;
+}
+
+.crypto-address {
+    flex: 1;
+    font-family: 'JetBrains Mono', 'Fira Code', monospace;
+    font-size: 0.9rem;
+    color: #cbd5e1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    text-align: left;
+}
+
+.copy-button {
+    background: transparent;
+    border: none;
+    color: #64748b;
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.copy-button:hover {
+    color: #fff;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.copy-button.copied {
+    color: #10b981;
+}
+
+.donation-footer {
+    font-size: 0.9rem;
+    color: #64748b;
+    font-weight: 500;
+}
+
+@media (max-width: 640px) {
+    .donation-card {
+        padding: 2rem 1.5rem;
+    }
+
+    .donation-title {
+        font-size: 1.5rem;
+    }
+
+    .crypto-address-item {
+        flex-wrap: wrap;
+    }
+
+    .crypto-address {
+        font-size: 0.8rem;
+    }
+}

@@ -21,6 +21,20 @@ export const VideoCard: React.FC<VideoCardProps> = ({
 }) => {
     const locale = useLocale();
 
+    // derived/fallback values
+    const duration = video.duration || 0;
+    const thumbnail = video.thumbnailUrl || '/api/placeholder/400/225';
+    const modelName = video.aiMetadata?.modelName || 'AI Generated';
+    const uploadDate = new Date(video.createdAt);
+
+    // Technical info extraction (fallback mock logic if files empty)
+    const resolution = video.files && video.files.length > 0
+        ? `${video.files[0].width}x${video.files[0].height}`
+        : '1080p';
+    const fps = video.files && video.files.length > 0
+        ? video.files[0].fps
+        : 30;
+
     return (
         <Link
             href={`/${locale}/video/${video.id}`}
@@ -29,7 +43,7 @@ export const VideoCard: React.FC<VideoCardProps> = ({
             {/* Thumbnail */}
             <div className="video-card-thumbnail">
                 <img
-                    src={video.thumbnailUrl}
+                    src={thumbnail}
                     alt={video.title}
                     loading="lazy"
                 />
@@ -44,12 +58,12 @@ export const VideoCard: React.FC<VideoCardProps> = ({
                 {/* Duration Badge */}
                 <div className="video-card-duration">
                     <Clock size={12} />
-                    <span>{formatDuration(video.duration)}</span>
+                    <span>{formatDuration(duration)}</span>
                 </div>
 
                 {/* AI Model Badge */}
                 <div className="video-card-model">
-                    <span className="ai-badge">{video.aiGeneration.model}</span>
+                    <span className="ai-badge">{modelName}</span>
                 </div>
 
                 {/* Quick Actions (on hover) */}
@@ -76,30 +90,30 @@ export const VideoCard: React.FC<VideoCardProps> = ({
                 <div className="video-card-meta">
                     <span className="meta-item">
                         <Eye size={14} />
-                        {formatViews(video.views)}
+                        {formatViews(video.viewCount)}
                     </span>
                     <span className="meta-divider">•</span>
                     <span className="meta-item">
-                        {getRelativeTime(video.uploadDate)}
+                        {getRelativeTime(uploadDate)}
                     </span>
                 </div>
 
-                {variant === 'large' && (
+                {variant === 'large' && video.description && (
                     <p className="video-card-description">{video.description}</p>
                 )}
 
                 {variant === 'compact' && (
                     <div className="video-card-compact-info">
-                        <span className="resolution-badge">{video.technical.resolution}</span>
-                        <span className="fps-badge">{video.technical.fps}fps</span>
+                        <span className="resolution-badge">{resolution}</span>
+                        <span className="fps-badge">{fps}fps</span>
                     </div>
                 )}
 
                 {/* Tags (only for large variant) */}
-                {variant === 'large' && (
+                {variant === 'large' && video.tags && video.tags.length > 0 && (
                     <div className="video-card-tags">
                         {video.tags.slice(0, 3).map((tag) => (
-                            <span key={tag} className="tag">#{tag}</span>
+                            <span key={tag.id} className="tag">#{tag.name}</span>
                         ))}
                     </div>
                 )}
