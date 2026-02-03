@@ -205,10 +205,6 @@ const WorkflowCanvasInner: React.FC = () => {
                 </button>
             </div>
 
-            <div style={{ position: 'absolute', top: '20px', left: '20px', pointerEvents: 'none' }}>
-                <h2 style={{ margin: 0, fontSize: '1.2rem', color: '#7c4dff', fontWeight: 800 }}>PIXEL WORKFLOW</h2>
-                <p style={{ margin: 0, fontSize: '0.7rem', color: 'rgba(255,255,255,0.4)' }}>LIVE GENERATION VISUALIZER</p>
-            </div>
         </div>
     );
 };
