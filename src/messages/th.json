@@ -4,6 +4,7 @@
         "categories": "หมวดหมู่",
         "about": "เกี่ยวกับ",
         "api": "API",
+        "workflow": "Workflow",
         "upload": "อัปโหลด"
     },
     "hero": {
@@ -51,6 +52,7 @@
             "browseVideos": "เรียกดูวิดีโอ",
             "categories": "หมวดหมู่",
             "upload": "อัปโหลด",
+            "workflow": "Workflow",
             "api": "API",
             "documentation": "เอกสารประกอบ",
             "blog": "บล็อก",

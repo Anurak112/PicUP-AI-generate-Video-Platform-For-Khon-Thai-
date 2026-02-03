@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { Menu, X, Search, Upload, Sparkles } from 'lucide-react';
+import { Menu, X, Search, Upload, Sparkles, Layers } from 'lucide-react';
 import { useTranslations, useLocale } from 'next-intl';
 import { Button } from '../ui/Button';
 import { LanguageSwitcher } from '../ui/LanguageSwitcher';
@@ -27,6 +27,10 @@ export const Navbar: React.FC = () => {
                         <Link href={`/${locale}/studio`} className="navbar-link">
                             <Sparkles size={18} />
                             <span>AI Studio</span>
+                        </Link>
+                        <Link href={`/${locale}/workflow`} className="navbar-link">
+                            <Layers size={18} />
+                            <span>{t('workflow')}</span>
                         </Link>
                     </div>
 
@@ -65,6 +69,14 @@ export const Navbar: React.FC = () => {
                             >
                                 <Sparkles size={20} />
                                 <span>AI Studio</span>
+                            </Link>
+                            <Link
+                                href={`/${locale}/workflow`}
+                                className="navbar-mobile-link"
+                                onClick={() => setMobileMenuOpen(false)}
+                            >
+                                <Layers size={20} />
+                                <span>{t('workflow')}</span>
                             </Link>
                         </div>
                         <div className="navbar-mobile-actions">

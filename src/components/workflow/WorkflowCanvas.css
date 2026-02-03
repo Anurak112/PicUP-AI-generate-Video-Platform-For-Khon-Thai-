@@ -1,0 +1,206 @@
+:root {
+    --workflow-bg: #0b0c10;
+    --node-bg: rgba(30, 31, 38, 0.85);
+    --node-border: rgba(255, 255, 255, 0.1);
+    --node-border-active: #7c4dff;
+    --node-text: #e0e0e0;
+    --node-accent: #7c4dff;
+    --connector-color: #555;
+    --glass-bg: rgba(255, 255, 255, 0.05);
+}
+
+.workflow-container {
+    width: 100%;
+    height: 100vh;
+    background-color: var(--workflow-bg);
+    background-image:
+        radial-gradient(circle at 1px 1px, rgba(255, 255, 255, 0.03) 1px, transparent 0);
+    background-size: 30px 30px;
+    position: relative;
+    color: var(--node-text);
+}
+
+/* Custom Node Styles */
+.image-node {
+    background: var(--node-bg);
+    backdrop-filter: blur(12px);
+    border: 1px solid var(--node-border);
+    border-radius: 12px;
+    padding: 0;
+    width: 280px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.image-node.selected {
+    border-color: var(--node-border-active);
+    box-shadow: 0 0 20px rgba(124, 77, 255, 0.3);
+}
+
+.node-header {
+    background: rgba(124, 77, 255, 0.1);
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--node-border);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 600;
+    font-size: 0.85rem;
+    color: var(--node-accent);
+}
+
+.node-content {
+    padding: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.node-prompt-area {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.node-label {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.node-textarea {
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px solid var(--node-border);
+    border-radius: 6px;
+    padding: 8px;
+    color: #fff;
+    font-size: 0.85rem;
+    resize: none;
+    height: 60px;
+    width: 100%;
+}
+
+.node-textarea:focus {
+    outline: none;
+    border-color: var(--node-accent);
+}
+
+.node-image-preview {
+    width: 100%;
+    aspect-ratio: 1;
+    background: #000;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    position: relative;
+}
+
+.node-image-preview img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.node-image-placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    color: rgba(255, 255, 255, 0.2);
+}
+
+.node-footer {
+    padding: 10px 14px;
+    border-top: 1px solid var(--node-border);
+    display: flex;
+    justify-content: flex-end;
+}
+
+.node-generate-btn {
+    background: var(--node-accent);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 6px 12px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: transform 0.2s ease, filter 0.2s ease;
+}
+
+.node-generate-btn:hover {
+    filter: brightness(1.1);
+}
+
+.node-generate-btn:active {
+    transform: scale(0.95);
+}
+
+.node-generate-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* Custom Handle Styles */
+.react-flow__handle {
+    width: 10px;
+    height: 10px;
+    background: var(--node-accent);
+    border: 2px solid var(--workflow-bg);
+}
+
+.react-flow__handle:hover {
+    transform: scale(1.2);
+}
+
+/* UI Controls Overlay */
+.workflow-controls {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    z-index: 10;
+    display: flex;
+    gap: 10px;
+}
+
+.control-btn {
+    background: var(--node-bg);
+    backdrop-filter: blur(12px);
+    border: 1px solid var(--node-border);
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.control-btn:hover {
+    background: var(--node-accent);
+    border-color: var(--node-accent);
+}
+
+.generation-loader {
+    width: 30px;
+    height: 30px;
+    border: 3px solid rgba(255, 255, 255, 0.1);
+    border-top-color: var(--node-accent);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}

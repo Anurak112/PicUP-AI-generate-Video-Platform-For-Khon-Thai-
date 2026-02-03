@@ -4,7 +4,8 @@
         "categories": "ໝວດໝູ່",
         "about": "ກ່ຽວກັບ",
         "api": "API",
-        "upload": "ອັບໂຫລດ"
+        "workflow": "Workflow",
+        "upload": "Upload"
     },
     "hero": {
         "badge": "ຂັບເຄື່ອນດ້ວຍ AI • {count}+ ວິດີໂອ",
@@ -50,7 +51,8 @@
         "links": {
             "browseVideos": "ເບິ່ງວິດີໂອ",
             "categories": "ໝວດໝູ່",
-            "upload": "ອັບໂຫລດ",
+            "upload": "Upload",
+            "workflow": "Workflow",
             "api": "API",
             "documentation": "ເອກະສານປະກອບ",
             "blog": "ບລັອກ",

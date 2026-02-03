@@ -4,6 +4,7 @@
         "categories": "Categories",
         "about": "About",
         "api": "API",
+        "workflow": "Workflow",
         "upload": "Upload"
     },
     "hero": {
@@ -71,6 +72,7 @@
             "browseVideos": "Browse Videos",
             "categories": "Categories",
             "upload": "Upload",
+            "workflow": "Workflow",
             "api": "API",
             "documentation": "Documentation",
             "blog": "Blog",

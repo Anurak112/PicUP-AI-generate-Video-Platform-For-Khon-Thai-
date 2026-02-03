@@ -42,6 +42,7 @@ export const Footer: React.FC = () => {
                             <li><Link href={`/${locale}/browse`}>{t('links.browseVideos')}</Link></li>
                             <li><Link href={`/${locale}/categories`}>{t('links.categories')}</Link></li>
                             <li><Link href={`/${locale}/upload`}>{t('links.upload')}</Link></li>
+                            <li><Link href={`/${locale}/workflow`}>{t('links.workflow')}</Link></li>
                             <li><Link href={`/${locale}/api`}>{t('links.api')}</Link></li>
                         </ul>
                     </div>
