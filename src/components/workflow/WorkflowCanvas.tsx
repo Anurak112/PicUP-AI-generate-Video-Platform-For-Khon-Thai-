@@ -20,66 +20,52 @@ import {
 } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
 import './WorkflowCanvas.css';
-import { ImageNode, type ImageNodeData, type ImageNodeNode } from './ImageNode';
+import { TextNode, type TextNodeNode } from './nodes/TextNode';
+import { EditorNode, type EditorNodeNode } from './nodes/EditorNode';
+import { PreviewNode, type PreviewNodeNode } from './nodes/PreviewNode';
 import { Plus, Zap, MousePointer2, ZoomIn } from 'lucide-react';
 
+type WorkflowNode = TextNodeNode | EditorNodeNode | PreviewNodeNode;
+
 const nodeTypes = {
-    imageNode: ImageNode,
+    textNode: TextNode,
+    editorNode: EditorNode,
+    previewNode: PreviewNode,
 };
 
-const generateInitialWorkflow = () => {
-    const nodes: ImageNodeNode[] = [];
-    const edges: Edge[] = [];
-    const totalNodes = 15;
-    const verticalGap = 500;
-    const horizontalGap = 350;
+const initialNodes: WorkflowNode[] = [
+    {
+        id: 'text-1',
+        type: 'textNode',
+        position: { x: 50, y: 150 },
+        data: { text: 'A futuristic cyberpunk city with neon lights', label: 'Text' },
+    },
+    {
+        id: 'editor-1',
+        type: 'editorNode',
+        position: { x: 450, y: 100 },
+        data: { model: 'gemini-nano', ratio: 'auto' },
+    },
+    {
+        id: 'preview-1',
+        type: 'previewNode',
+        position: { x: 425, y: 450 },
+        data: { imageUrl: '' },
+    },
+];
 
-    for (let i = 1; i <= totalNodes; i++) {
-        const level = Math.floor(Math.log2(i));
-        const indexInLevel = i - Math.pow(2, level);
-        const nodesInLevel = Math.pow(2, level);
-
-        // Center the level horizontally
-        const totalLevelWidth = (nodesInLevel - 1) * horizontalGap * (Math.pow(2, 3 - level));
-        const xOffset = 600 - totalLevelWidth / 2;
-        const x = xOffset + indexInLevel * horizontalGap * (Math.pow(2, 3 - level));
-        const y = level * verticalGap;
-
-        nodes.push({
-            id: i.toString(),
-            type: 'imageNode',
-            position: { x, y },
-            data: {
-                label: i === 1 ? 'Master Concept' : `Iteration ${i}`,
-                prompt: i === 1 ? 'A futuristic cyberpunk city with neon lights' : `Refinement of concept ${Math.floor(i / 2)}`,
-                imageUrl: `https://picsum.photos/seed/pixel-node-${i}/400/400`,
-                isGenerating: false,
-            },
-        });
-
-        if (i > 1) {
-            const parentId = Math.floor(i / 2).toString();
-            edges.push({
-                id: `e${parentId}-${i}`,
-                source: parentId,
-                target: i.toString(),
-                animated: true,
-                style: { stroke: '#7c4dff' },
-            });
-        }
-    }
-    return { nodes, edges };
-};
-
-const { nodes: initialNodes, edges: initialEdges } = generateInitialWorkflow();
+const initialEdges: Edge[] = [
+    { id: 'e1', source: 'text-1', target: 'editor-1', targetHandle: 'input-text', animated: true, style: { stroke: '#7c4dff' } },
+    { id: 'e2', source: 'editor-1', target: 'preview-1', sourceHandle: 'output', animated: true, style: { stroke: '#ff00ff' } },
+];
 
 const WorkflowCanvasInner: React.FC = () => {
     const { fitView } = useReactFlow();
-    const [nodes, setNodes] = useState<ImageNodeNode[]>(initialNodes);
+    const [nodes, setNodes] = useState<WorkflowNode[]>(initialNodes);
     const [edges, setEdges] = useState<Edge[]>(initialEdges);
 
     const onNodesChange: OnNodesChange = useCallback(
-        (changes) => setNodes((nds) => applyNodeChanges(changes, nds) as ImageNodeNode[]),
+        (changes) => setNodes((nds) => applyNodeChanges(changes, nds) as WorkflowNode[]),
         []
     );
     const onEdgesChange: OnEdgesChange = useCallback(
@@ -91,91 +77,95 @@ const WorkflowCanvasInner: React.FC = () => {
         []
     );
 
-    const handleGenerate = useCallback((nodeId: string, prompt: string) => {
+    const handleRun = useCallback((editorId: string) => {
+        // Find connected preview node
+        const edge = edges.find(e => e.source === editorId && (e.sourceHandle === 'output' || e.sourceHandle === 'output-right'));
+        if (!edge) return;
+
+        const previewId = edge.target;
+
         // Set generating state
-        setNodes((nds) =>
-            nds.map((node: ImageNodeNode) => {
-                if (node.id === nodeId) {
+        setNodes((nds) => nds.map((node) => {
+            if (node.id === previewId) {
+                return { ...node, data: { ...node.data, isGenerating: true } };
+            }
+            if (node.id === editorId) {
+                return { ...node, data: { ...node.data, isGenerating: true } };
+            }
+            return node;
+        }) as WorkflowNode[]);
+
+        // Simulate generation
+        setTimeout(() => {
+            setNodes((nds) => nds.map((node) => {
+                if (node.id === previewId) {
                     return {
                         ...node,
-                        data: { ...node.data, isGenerating: true, prompt },
+                        data: {
+                            ...node.data,
+                            isGenerating: false,
+                            imageUrl: `https://picsum.photos/seed/${node.id}-${Date.now()}/600/600`
+                        }
                     };
                 }
+                if (node.id === editorId) {
+                    return { ...node, data: { ...node.data, isGenerating: false } };
+                }
                 return node;
-            })
-        );
-
-        // Simulate API call
-        setTimeout(() => {
-            setNodes((nds) =>
-                nds.map((node: ImageNodeNode) => {
-                    if (node.id === nodeId) {
-                        return {
-                            ...node,
-                            data: {
-                                ...node.data,
-                                isGenerating: false,
-                                imageUrl: `https://picsum.photos/seed/${nodeId}-${Date.now()}/400/400`
-                            },
-                        };
-                    }
-                    return node;
-                })
-            );
+            }) as WorkflowNode[]);
         }, 2000);
+    }, [edges]);
+
+    const handleTextChange = useCallback((id: string, text: string) => {
+        setNodes((nds) => nds.map(node => node.id === id ? { ...node, data: { ...node.data, text } } : node) as WorkflowNode[]);
     }, []);
 
-    const handleAddChild = useCallback((parentId: string) => {
-        const parentNode = nodes.find(n => n.id === parentId);
-        if (!parentNode) return;
+    const handleModelChange = useCallback((id: string, model: string) => {
+        setNodes((nds) => nds.map(node => node.id === id ? { ...node, data: { ...node.data, model } } : node) as WorkflowNode[]);
+    }, []);
 
-        const newId = (nodes.length + 1).toString();
-        const newNode: ImageNodeNode = {
-            id: newId,
-            type: 'imageNode',
-            position: {
-                x: parentNode.position.x + (Math.random() * 200 - 100),
-                y: parentNode.position.y + 350
-            },
-            data: {
-                label: `Variation ${newId}`,
-                prompt: parentNode.data.prompt || '',
-            },
-        };
-
-        const newEdge: Edge = {
-            id: `e${parentId}-${newId}`,
-            source: parentId,
-            target: newId,
-            animated: true,
-            style: { stroke: '#7c4dff' },
-        };
-
-        setNodes((nds) => nds.concat(newNode));
-        setEdges((eds) => eds.concat(newEdge));
-    }, [nodes]);
+    const handleRatioChange = useCallback((id: string, ratio: string) => {
+        setNodes((nds) => nds.map(node => node.id === id ? { ...node, data: { ...node.data, ratio } } : node) as WorkflowNode[]);
+    }, []);
 
     // Enrich nodes with callbacks
     const enrichedNodes = useMemo(() => {
-        return nodes.map(node => ({
-            ...node,
-            data: {
-                ...node.data,
-                onGenerate: handleGenerate,
-                onAddChild: handleAddChild,
+        return nodes.map(node => {
+            if (node.type === 'textNode') {
+                return { ...node, data: { ...node.data, onChange: handleTextChange } };
             }
-        }));
-    }, [nodes, handleGenerate, handleAddChild]);
+            if (node.type === 'editorNode') {
+                return {
+                    ...node,
+                    data: {
+                        ...node.data,
+                        onRun: handleRun,
+                        onModelChange: handleModelChange,
+                        onRatioChange: handleRatioChange
+                    }
+                };
+            }
+            return node;
+        });
+    }, [nodes, handleTextChange, handleRun, handleModelChange, handleRatioChange]);
 
-    const addNewRootNode = () => {
-        const newId = (nodes.length + 1).toString();
-        const newNode: ImageNodeNode = {
-            id: newId,
-            type: 'imageNode',
-            position: { x: 100, y: 100 },
-            data: { label: 'New Workflow', prompt: '' },
-        };
-        setNodes((nds) => nds.concat(newNode));
+    const addNewStack = () => {
+        const stackId = Date.now().toString();
+        const yOffset = nodes.length * 200;
+
+        const newNodes: WorkflowNode[] = [
+            { id: `text-${stackId}`, type: 'textNode', position: { x: 50, y: 150 + yOffset }, data: { text: '', label: 'Text' } },
+            { id: `editor-${stackId}`, type: 'editorNode', position: { x: 450, y: 100 + yOffset }, data: { model: 'gemini-nano', ratio: 'auto' } },
+            { id: `preview-${stackId}`, type: 'previewNode', position: { x: 425, y: 450 + yOffset }, data: { imageUrl: '' } },
+        ];
+
+        const newEdges: Edge[] = [
+            { id: `e-text-${stackId}`, source: `text-${stackId}`, target: `editor-${stackId}`, targetHandle: 'input-text', animated: true, style: { stroke: '#7c4dff' } },
+            { id: `e-editor-${stackId}`, source: `editor-${stackId}`, target: `preview-${stackId}`, sourceHandle: 'output', animated: true, style: { stroke: '#ff00ff' } },
+        ];
+
+        setNodes((nds) => nds.concat(newNodes));
+        setEdges((eds) => eds.concat(newEdges));
     };
 
     return (
@@ -194,7 +184,7 @@ const WorkflowCanvasInner: React.FC = () => {
             </ReactFlow>
 
             <div className="workflow-controls">
-                <button className="control-btn" onClick={addNewRootNode} title="Add Root Node">
+                <button className="control-btn" onClick={addNewStack} title="Add New Stack">
                     <Plus size={20} />
                 </button>
                 <button className="control-btn" title="Selection Mode">
